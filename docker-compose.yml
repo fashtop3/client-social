@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+
+  client-social:
+    container_name: client-social
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - AUTH_COOKIE_DOMAIN=${AUTH_COOKIE_DOMAIN}
+      - REACT_APP_SERVICE_URL=${REACT_APP_SERVICE_URL}
+      - CHOKIDAR_USEPOLLING=true
