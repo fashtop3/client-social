@@ -1,28 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import {Route, Redirect, Switch} from 'react-router-dom';
+import Mandates from "./components/mandates";
+import Accounts from "./components/accounts";
+import NotFound from "./components/notFound";
+import NavBar from "./components/navBar";
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <React.Fragment>
+                <NavBar/>
+                <main className="container">
+                    <div className="content">
+                        <Switch>
+                            <Route path="/mandates" component={Mandates}/>
+                            <Route path="/accounts" component={Accounts}/>
+                            <Route path="/not-found" component={NotFound}/>
+                            <Redirect from="/" exact to="/mandates"/>
+                            <Redirect to="/not-found"/>
+                        </Switch>
+                    </div>
+                </main>
+            </React.Fragment>
+        );
+    }
 }
 
 export default App;
