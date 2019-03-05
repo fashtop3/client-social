@@ -1,28 +1,30 @@
 import React, {Component} from 'react';
-import {Route, Redirect, Switch} from 'react-router-dom';
-import Mandates from "./components/mandates";
-import Accounts from "./components/accounts";
-import NotFound from "./components/notFound";
-import NavBar from "./components/navBar";
-import './App.css';
+import { Router} from '@reach/router';
+import MandateForm from "./components/MandateForm";
+import Navigation from "./components/Navigation";
+import Dashboard from "./components/Dashboard";
 
 class App extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            user: 'Femi',
+            displayName: null,
+            userID: null
+        };
+    }
+
     render() {
         return (
-            <React.Fragment>
-                <NavBar/>
-                <main className="container">
-                    <div className="content">
-                        <Switch>
-                            <Route path="/mandates" component={Mandates}/>
-                            <Route path="/accounts" component={Accounts}/>
-                            <Route path="/not-found" component={NotFound}/>
-                            <Redirect from="/" exact to="/mandates"/>
-                            <Redirect to="/not-found"/>
-                        </Switch>
-                    </div>
-                </main>
-            </React.Fragment>
+            <div>
+                <Navigation user={this.state.user}/>
+
+                <Router>
+                    <Dashboard path="/"/>
+                    <MandateForm path="/apply"/>
+                </Router>
+            </div>
         );
     }
 }
