@@ -1,47 +1,64 @@
-import React, { Component } from 'react';
-import { Link } from '@reach/router';
+import React, {Component} from 'react';
+import {Link} from '@reach/router';
+
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class Dashboard extends Component {
-  render() {
-    const { user } = this.props;
 
-    const biggerLead = {
-      fontSize: 1.4 + 'em',
-      fontWeight: 200
+    state = {
+        leverAuth: {},
     };
 
-    return (
-      <div className="container text-center">
-        <div className="row justify-content-center">
-          <div className="col-10 col-md-10 col-lg-8 col-xl-7">
-            <div
-              className="display-4 text-primary mt-3 mb-2"
-              style={{
-                fontSize: 2.8 + 'em'
-              }}
-            >
-              Dynamo Social by Lever
-            </div>
-            <p className="lead" style={biggerLead}>
-              This simple app creates meetings, allows people to check
-              in, and picks random users to award giveaways. It's a
-              good example of a Single Page Application which includes
-              connection to a database and routing. It's a practical
-              way to learn <a href="https://reactjs.org/">React</a>{' '}
-              with <a href="https://firebase.google.com">Firebase</a>.
-            </p>
+    async componentDidMount() {
+        try {
+            console.log(cookies.get('lever-token'));
+        } catch(ex){
 
-            {user && (
-              <Link to="/mandates" className="btn btn-primary">
-                Applications
-              </Link>
-            )}
-          </div>{' '}
-          {/* columns */}
-        </div>
-      </div>
-    );
-  }
+        }
+
+    }
+
+    render() {
+        const biggerLead = {
+            fontSize: 1.4 + 'em',
+            fontWeight: 200
+        };
+
+        return (
+            <div className="container text-center">
+                <div className="row justify-content-center">
+                    <div className="col-10 col-md-10 col-lg-8 col-xl-7">
+                        <div
+                            className="display-4 text-primary mt-3 mb-2"
+                            style={{
+                                fontSize: 2.8 + 'em'
+                            }}
+                        >
+                            Dynamo Social by Lever
+                        </div>
+                        <p className="lead" style={biggerLead}>
+                            This simple app creates meetings, allows people to check
+                            in, and picks random users to award giveaways. It's a
+                            good example of a Single Page Application which includes
+                            connection to a database and routing. It's a practical
+                            way to learn <a href="https://reactjs.org/">React</a>{' '}
+                            with <a href="https://firebase.google.com">Firebase</a>.
+                        </p>
+
+                        {this.state.aggregator && (
+                            <Link to="/mandates" className="btn btn-primary">
+                                Applications
+                            </Link>
+                        )}
+                    </div>
+                    {' '}
+                    {/* columns */}
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Dashboard;

@@ -9,7 +9,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            user: 'Femi',
+            user: null,
             displayName: null,
             userID: null
         };
