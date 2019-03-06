@@ -1,21 +1,25 @@
 import React, {Component} from 'react';
-import {Link} from '@reach/router';
-
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
+import {Link} from "react-router-dom";
+import auth from "../services/AuthService";
 
 class Dashboard extends Component {
 
     state = {
-        leverAuth: {},
+        user: {}
     };
 
     async componentDidMount() {
         try {
-            console.log(cookies.get('lever-token'));
+            const user = auth.getCurrentUser();
+            console.log(user);
+            this.setState({user});
         } catch(ex){
-
+            if (ex.response && ex.response.status === 401) {
+                const errors = {...this.state.errors};
+                console.log(ex.response.data);
+                errors.aggregator = ex.response.data;
+                this.setState({errors});
+            }
         }
 
     }
@@ -39,17 +43,17 @@ class Dashboard extends Component {
                             Dynamo Social by Lever
                         </div>
                         <p className="lead" style={biggerLead}>
-                            This simple app creates meetings, allows people to check
-                            in, and picks random users to award giveaways. It's a
-                            good example of a Single Page Application which includes
-                            connection to a database and routing. It's a practical
-                            way to learn <a href="https://reactjs.org/">React</a>{' '}
-                            with <a href="https://firebase.google.com">Firebase</a>.
+                            Dynamo Social is your convenient and reliable source to
+                            payment liquidity that helps take your business to the next
+                            Level.
+                            <br/>
+                            <a href="https://reactjs.org/">Apply Here</a>{' '}
+                            or get more information at  <a href="https://leverweb.co">Lever</a>.
                         </p>
 
                         {this.state.aggregator && (
                             <Link to="/mandates" className="btn btn-primary">
-                                Applications
+                                View Existing Applications
                             </Link>
                         )}
                     </div>

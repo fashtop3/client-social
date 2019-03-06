@@ -33,6 +33,7 @@ export function getCurrentUser() {
     }
 }
 
+
 export function getAuthToken(){
     return cookies.get('lever-token') || null;
 }

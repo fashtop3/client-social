@@ -1,35 +1,45 @@
-import React, { Component } from 'react';
-import { FaUsers } from 'react-icons/fa';
-import { Link } from '@reach/router';
+import React from 'react';
+import {FaUsers} from 'react-icons/fa';
+import {Link, NavLink} from "react-router-dom";
 
-class Navigation extends Component {
-  render() {
-    const { user} = this.props;
+const Navigation = ({user}) => {
 
     return (
-      <nav className="site-nav family-sans navbar navbar-expand bg-primary navbar-dark higher">
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            <FaUsers className="mr-1" /> Dynamo Social
-          </Link>
-          <div className="navbar-nav ml-auto">
-            {user && (
-              <Link className="nav-item nav-link" to="/apply">
-                Apply
-              </Link>
-            )}
-            {user && (
-              <Link
-                className="nav-item nav-link"
-                to="/login" >
-                log out
-              </Link>
-            )}
-          </div>
-        </div>
-      </nav>
+        <nav className="site-nav family-sans navbar navbar-expand bg-primary navbar-dark higher">
+            <div className="container-fluid">
+                <Link to="/" className="navbar-brand">
+                    <FaUsers className="mr-1"/> Dynamo Social
+                </Link>
+
+                <div className="navbar-nav mr-auto">
+                    {user && (
+                        <NavLink className="nav-item nav-link" to="/apply">
+                            Apply
+                        </NavLink>
+                    )}
+                </div>
+
+                <div className="navbar-nav ml-auto">
+
+                    {user && (
+                        <NavLink className="nav-item nav-link" to="/">
+                            {user.sub.email}
+                        </NavLink>
+                    )}
+
+                    {user && (
+                        <NavLink
+                            className="nav-item nav-link"
+                            to="/login">
+                            Sign Out
+                        </NavLink>
+                    )}
+                </div>
+            </div>
+        </nav>
     );
-  }
-}
+
+};
+
 
 export default Navigation;

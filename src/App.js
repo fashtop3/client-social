@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import { Router} from '@reach/router';
+import {Router} from "react-router-dom";
 import MandateForm from "./components/MandateForm";
 import Navigation from "./components/Navigation";
 import Dashboard from "./components/Dashboard";
+import auth from "./services/AuthService";
 
 class App extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            user: null,
-            displayName: null,
-            userID: null
-        };
+    state = {};
+
+
+    componentDidMount() {
+        const user = auth.getCurrentUser();
+        this.setState({ user })
     }
 
     render() {
@@ -21,7 +21,7 @@ class App extends Component {
                 <Navigation user={this.state.user}/>
 
                 <Router>
-                    <Dashboard path="/"/>
+                    <Dashboard path="/" user={this.state.user}/>
                     <MandateForm path="/apply"/>
                 </Router>
             </div>
