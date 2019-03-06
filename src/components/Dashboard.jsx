@@ -1,18 +1,25 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import auth from "../services/AuthService";
+import {activateSocialAccount} from "../services/AccountService";
 
 class Dashboard extends Component {
 
     state = {
-        user: {}
+        user: {},
+        account: null
     };
 
     async componentDidMount() {
         try {
             const user = auth.getCurrentUser();
-            console.log(user);
             this.setState({user});
+            if(this.account == null){
+                  const newAccount = await activateSocialAccount(user.sub.id);
+                  console.log(newAccount);
+            }else {
+                console.log("NO");
+            }
         } catch(ex){
             if (ex.response && ex.response.status === 401) {
                 const errors = {...this.state.errors};
@@ -47,8 +54,12 @@ class Dashboard extends Component {
                             payment liquidity that helps take your business to the next
                             Level.
                             <br/>
-                            <a href="https://reactjs.org/">Apply Here</a>{' '}
-                            or get more information at  <a href="https://leverweb.co">Lever</a>.
+                            <br/>
+                            { this.state.account && (
+                                <Link to="/apply">Apply Here</Link>
+                            ) }
+
+                            <Link to="/logout">Activate Account</Link>
                         </p>
 
                         {this.state.aggregator && (

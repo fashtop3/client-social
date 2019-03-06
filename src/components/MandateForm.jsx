@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 
 class Mandates extends Component {
 
+    state = {
+      data: {
+
+      }
+    };
+
     render() {
         return (
             <div className="container mt-4">

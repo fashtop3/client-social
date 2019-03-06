@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Router} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import MandateForm from "./components/MandateForm";
 import Navigation from "./components/Navigation";
 import Dashboard from "./components/Dashboard";
 import auth from "./services/AuthService";
+import NotFound from "./components/NotFound";
+import Logout from "./components/Logout";
 
 class App extends Component {
 
@@ -20,10 +22,16 @@ class App extends Component {
             <div>
                 <Navigation user={this.state.user}/>
 
-                <Router>
-                    <Dashboard path="/" user={this.state.user}/>
-                    <MandateForm path="/apply"/>
-                </Router>
+                <Switch>
+                    <Route path="/dashboard"
+                           render={ props => <Dashboard {...props} user={ this.state.user} />}
+                    />
+                    <Route path='/logout' component={Logout}/>
+                    <Route path="/apply" exact component={MandateForm}/>
+                    <Route path='/not-found' component={NotFound}/>
+                    <Redirect from="/" exact to='/dashboard'/>
+                    <Redirect to='/not-found'/>
+                </Switch>
             </div>
         );
     }
