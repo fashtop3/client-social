@@ -22,14 +22,12 @@ class Dashboard extends Component {
                 try {
                     // Activate new social account
                     const {data: newAccount} = await activateSocialAccount(info);
-                    // console.log(newAccount);
                     this.setState({account: newAccount});
                 } catch(ex){
                     if (ex.response && ex.response.status === 422) {
                        console.log( ex.response.data);
                         // if social account exists get it
                         const {data: existingAccount} = await getSocialAccount(user.sub.id);
-                        // console.log(existingAccount.data);
                         this.setState({account: existingAccount});
                     }
                 }
