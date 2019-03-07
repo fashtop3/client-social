@@ -1,24 +1,40 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import auth from "../services/AuthService";
-import {activateSocialAccount} from "../services/AccountService";
+import {activateSocialAccount, getSocialAccount} from "../services/AccountService";
 
 class Dashboard extends Component {
 
     state = {
         user: {},
-        account: null
+        account: {}
     };
 
     async componentDidMount() {
         try {
             const user = auth.getCurrentUser();
             this.setState({user});
+            let info = {
+                aggregator_id: user.sub.id
+            };
+
             if(this.account == null){
-                  const newAccount = await activateSocialAccount(user.sub.id);
-                  console.log(newAccount);
+                try {
+                    // Activate new social account
+                    const {data: newAccount} = await activateSocialAccount(info);
+                    // console.log(newAccount);
+                    this.setState({account: newAccount});
+                } catch(ex){
+                    if (ex.response && ex.response.status === 422) {
+                       console.log( ex.response.data);
+                        // if social account exists get it
+                        const {data: existingAccount} = await getSocialAccount(user.sub.id);
+                        // console.log(existingAccount.data);
+                        this.setState({account: existingAccount});
+                    }
+                }
             }else {
-                console.log("NO");
+                console.log("ACCOUNT EXISTS");
             }
         } catch(ex){
             if (ex.response && ex.response.status === 401) {
@@ -55,14 +71,21 @@ class Dashboard extends Component {
                             Level.
                             <br/>
                             <br/>
-                            { this.state.account && (
+                            { !this.user && !this.state.account && (
+                                <Link to="/register">Sign up on Dynamo</Link>
+                            ) }
+
+                            { this.user && this.state.account && (
                                 <Link to="/apply">Apply Here</Link>
                             ) }
 
-                            <Link to="/logout">Activate Account</Link>
+                            { !this.state.account && (
+                                <Link to="/logout">Activate Social Account</Link>
+                            ) }
+
                         </p>
 
-                        {this.state.aggregator && (
+                        { this.user && this.state.aggregator && (
                             <Link to="/mandates" className="btn btn-primary">
                                 View Existing Applications
                             </Link>
