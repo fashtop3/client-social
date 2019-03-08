@@ -69,12 +69,14 @@ class Dashboard extends Component {
                             Level.
                             <br/>
                             <br/>
-                            { !this.user && !this.state.account && (
+                            { !this.state.user && !this.state.account && (
                                 <Link to="/register">Sign up on Dynamo</Link>
                             ) }
 
-                            { this.user && this.state.account && (
-                                <Link to="/apply">Apply Here</Link>
+                            { this.state.user && this.state.account && (
+                                <Link to="/mandates">
+                                    View Existing Applications
+                                </Link>
                             ) }
 
                             { !this.state.account && (
@@ -83,10 +85,8 @@ class Dashboard extends Component {
 
                         </p>
 
-                        { this.user && this.state.aggregator && (
-                            <Link to="/mandates" className="btn btn-primary">
-                                View Existing Applications
-                            </Link>
+                        { this.state.user && this.state.account && (
+                            <Link to="/apply" className="btn btn-primary">Apply Here</Link>
                         )}
                     </div>
                     {' '}

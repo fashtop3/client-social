@@ -1,12 +1,57 @@
 import React, {Component} from 'react';
+import {getSocialAccount, saveMandate} from "../services/AccountService";
+import auth from "../services/AuthService";
 
-class Mandates extends Component {
+class MandateForm extends Component {
 
-    state = {
-      data: {
+    constructor(props){
+        super(props);
 
-      }
+        this.state = {
+            selectedFile: null,
+            account: {}
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    async componentDidMount() {
+        try {
+            const user = auth.getCurrentUser();
+            const {data: existingAccount} = await getSocialAccount(user.sub.id);
+            this.setState({account: existingAccount.data});
+        }
+        catch(ex){
+            console.log(ex.response.data);
+        }
+    }
+
+    handleChange= event =>{
+            this.setState({
+                selectedFile: event.target.files[0]
+       })
     };
+
+    handleSubmit = async e => {
+        e.preventDefault();
+        const formData = new FormData();
+        let file = this.state.selectedFile;
+        let account_id = this.state.account.id;
+        formData.append("document", file);
+        formData.append("account_id", account_id);
+        try{
+            await saveMandate(formData);
+            this.setState({selectedFile: null});
+            this.props.history.push("/dashboard");
+        }
+        catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                console.log(ex.response.data);
+            }
+        }
+    };
+
+
 
     render() {
         return (
@@ -17,14 +62,15 @@ class Mandates extends Component {
                         <div className="card bg-light">
                             <div className="card-body text-center">
                                 <form
-                                    className="formgroup">
+                                    className="formgroup" onSubmit={this.handleSubmit}>
                                     <div className="input-group input-group-lg">
                                         <input
                                             type="file"
                                             className="form-control"
-                                            name="meetingName"
+                                            name="file"
                                             placeholder="Mandate File"
                                             aria-describedby="buttonAdd"
+                                            onChange={this.handleChange}
                                         />
                                         <div className="input-group-append">
                                             <button
@@ -53,4 +99,4 @@ class Mandates extends Component {
 
 }
 
-export default Mandates;
+export default MandateForm;

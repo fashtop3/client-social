@@ -13,8 +13,13 @@ class App extends Component {
 
 
     componentDidMount() {
-        const user = auth.getCurrentUser();
-        this.setState({ user })
+        try{
+            const user = auth.getCurrentUser();
+            this.setState({ user })
+        }catch (ex) {
+            window.location.replace("http://localhost/logout");
+        }
+
     }
 
     render() {
