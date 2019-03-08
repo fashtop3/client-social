@@ -15,6 +15,11 @@ export function getSocialAccount(aggregatorId){
     return http.get(aggregatorAccountUrl);
 }
 
+export function getAccountMandates(aggregatorId){
+    const aggregatorMandateUrl = `${apiMandateEndpoint}${aggregatorId}/`;
+    return http.get(aggregatorMandateUrl);
+}
+
 export function saveMandate(mandate){
     return http.post(apiMandateEndpoint, mandate);
 }

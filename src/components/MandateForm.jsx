@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getSocialAccount, saveMandate} from "../services/AccountService";
+import {getAccountMandates, getSocialAccount, saveMandate} from "../services/AccountService";
 import auth from "../services/AuthService";
 
 class MandateForm extends Component {
@@ -9,7 +9,8 @@ class MandateForm extends Component {
 
         this.state = {
             selectedFile: null,
-            account: {}
+            account: {},
+            mandates: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,6 +21,8 @@ class MandateForm extends Component {
             const user = auth.getCurrentUser();
             const {data: existingAccount} = await getSocialAccount(user.sub.id);
             this.setState({account: existingAccount.data});
+            const {data: mandates} = await getAccountMandates(user.sub.id);
+            this.setState({mandates: mandates.data});
         }
         catch(ex){
             console.log(ex.response.data);
@@ -58,7 +61,7 @@ class MandateForm extends Component {
             <div className="container mt-4">
                 <div className="row justify-content-center">
                     <div className="col-md-8 text-center">
-                        <h1 className="font-weight-light">Add Payment Mandate</h1>
+                        <h1 className="font-weight-light">Upload Payment Mandate</h1>
                         <div className="card bg-light">
                             <div className="card-body text-center">
                                 <form
@@ -76,8 +79,7 @@ class MandateForm extends Component {
                                             <button
                                                 type="submit"
                                                 className="btn btn-sm btn-info"
-                                                id="buttonAdd"
-                                            >
+                                                id="buttonAdd">
                                                 +
                                             </button>
                                         </div>
@@ -87,11 +89,37 @@ class MandateForm extends Component {
                         </div>
                     </div>
 
+
                     <div className="col-11 col-md-6 text-center">
                         <div className="card border-top-0 rounded-0">
+                            {this.state.mandates && this.state.mandates.length ? (
+                                <div className="card-body py-2">
+                                    <h4 className="card-title font-weight-light m-0">
+                                        Submitted Mandates
+                                    </h4>
+                                </div>
+                            ) : null}
+
+                            {this.state.mandates.map((mandate, index) =>
+
+                                <div className="list-group list-group-flush" key={mandate.id}>
+                                    <div>
+                                        <div className="list-group-item d-flex">
+                                            <section className="btn-group align-self-center"
+                                                     role="group" aria-label="Mandate Options">
+                                            </section>
+                                            <section className="pl-3 text-left align-self-center">
+                                                {index +1}.      {mandate.created_on}
+                                                ({mandate.document.substring(16)})
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                         </div>
                     </div>
+
                 </div>
             </div>
         );
