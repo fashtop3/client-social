@@ -18,6 +18,12 @@ const Navigation = ({user}) => {
                               Apply
                           </NavLink>
                       )}
+
+                       {user && (
+                          <NavLink className="nav-item nav-link" to="/mandates">
+                              Mandates
+                          </NavLink>
+                      )}
                   </div>
 
                   <div className="navbar-nav ml-auto">

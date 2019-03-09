@@ -20,6 +20,10 @@ export function getAccountMandates(aggregatorId){
     return http.get(aggregatorMandateUrl);
 }
 
+export function getAllMandates() {
+    return http.get(apiMandateEndpoint);
+}
+
 export function saveMandate(mandate){
     return http.post(apiMandateEndpoint, mandate);
 }
