@@ -113,7 +113,7 @@ class MandateForm extends Component {
                                             </section>
                                             <section className="pl-3 text-left align-self-center">
                                                 {index +1}.  {'  '}
-                                                {mandate.created_on}
+                                                Uploaded on {new Date(mandate.created_on).toDateString()} :
                                                 ({mandate.document.substring(16)})
                                             </section>
                                         </div>
