@@ -74,7 +74,7 @@ class Dashboard extends Component {
                             ) }
 
                             { this.state.user && this.state.account && (
-                                <Link to="/mandates">
+                                <Link to="/apply">
                                     View Existing Applications
                                 </Link>
                             ) }

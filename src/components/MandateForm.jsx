@@ -30,6 +30,7 @@ class MandateForm extends Component {
     }
 
     handleChange= event =>{
+
             this.setState({
                 selectedFile: event.target.files[0]
        })
@@ -44,8 +45,10 @@ class MandateForm extends Component {
         formData.append("account_id", account_id);
         try{
             await saveMandate(formData);
+            const user = auth.getCurrentUser();
+            const {data: mandates} = await getAccountMandates(user.sub.id);
+            this.setState({mandates: mandates.data});
             this.setState({selectedFile: null});
-            this.props.history.push("/dashboard");
         }
         catch (ex) {
             if (ex.response && ex.response.status === 400) {
@@ -109,7 +112,8 @@ class MandateForm extends Component {
                                                      role="group" aria-label="Mandate Options">
                                             </section>
                                             <section className="pl-3 text-left align-self-center">
-                                                {index +1}.      {mandate.created_on}
+                                                {index +1}.  {'  '}
+                                                {mandate.created_on}
                                                 ({mandate.document.substring(16)})
                                             </section>
                                         </div>
