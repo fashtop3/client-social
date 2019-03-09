@@ -9,12 +9,18 @@ import Logout from "./components/Logout";
 
 class App extends Component {
 
-    state = {};
+    state = {
+        mandates: []
+    };
 
 
-    componentDidMount() {
-        const user = auth.getCurrentUser();
-        this.setState({ user })
+    async componentDidMount() {
+        try{
+            const user = auth.getCurrentUser();
+            this.setState({ user });
+        }catch (ex) {
+            window.location.replace("http://localhost/logout");
+        }
     }
 
     render() {
@@ -24,7 +30,7 @@ class App extends Component {
 
                 <Switch>
                     <Route path="/dashboard"
-                           render={ props => <Dashboard {...props} user={ this.state.user} />}
+                           render={ (props) => <Dashboard user={ this.state.user} {...props} />}
                     />
                     <Route path='/logout' component={Logout}/>
                     <Route path="/apply" exact component={MandateForm}/>

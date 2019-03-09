@@ -24,20 +24,8 @@ export function logout() {
 }
 
 export function getCurrentUser() {
-    try {
-        const jwt = localStorage.getItem(tokenKey);
-        if(jwt){
-            return jwtDecode(jwt);
-        }else {
-            const jwt = getAuthToken();
-            loginWithJwt(jwt);
-            return jwtDecode(jwt);
-        }
-
-    }
-    catch (ex) {
-        return null;
-    }
+    const auth_token = getAuthToken();
+    return jwtDecode(auth_token);
 }
 
 
