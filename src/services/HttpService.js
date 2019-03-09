@@ -2,7 +2,6 @@ import axios from "axios";
 import {toast} from 'react-toastify';
 import logger from "./LogService";
 
-
 function setJwt(jwt) {
     axios.interceptors.request.use(function (config) {
         const auth_token = jwt;

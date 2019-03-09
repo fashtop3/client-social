@@ -1,7 +1,6 @@
 import http from './HttpService';
-// import {apiUrl} from '../config';
 
-const apiUrl = "http://localhost:5005";
+const apiUrl = `${process.env.REACT_APP_SERVICE_URL}`;
 const apiEndpoint = apiUrl + "/social/accounts/";
 const apiMandateEndpoint = apiUrl + "/social/mandates/";
 const apiSingleEndpoint = `${apiUrl}/social/accounts/aggregator`;

@@ -1,10 +1,10 @@
 import http from './HttpService';
-import {apiUrl} from '../config';
+// import {apiUrl} from '../config';
 import jwtDecode from "jwt-decode";
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-
+const apiUrl = `${process.env.REACT_APP_SERVICE_URL}`;
 const apiEndpoint = apiUrl + "/auth";
 const tokenKey = 'auth-token';
 
@@ -20,6 +20,7 @@ export function loginWithJwt(jwt) {
 }
 
 export function logout() {
+    cookies.remove('lever-token');
     localStorage.removeItem(tokenKey);
 }
 
