@@ -20,7 +20,10 @@ class App extends Component {
             const user = auth.getCurrentUser();
             this.setState({ user });
         }catch (ex) {
-            window.location.replace("http://localhost/logout");
+            //TODO Set to generic URL
+            // const profileLogoutUrl = `${process.env.REACT_APP_PROFILE_URL}/logout`;
+            const profileLogoutUrl = "http://localhost:8080/logout";
+            window.location.replace(profileLogoutUrl);
         }
     }
 

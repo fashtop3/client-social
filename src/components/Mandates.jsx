@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getAllMandates} from "../services/AccountService"
+import {getAggregatorProfile, getAllMandates} from "../services/AccountService"
 
 class Mandates extends Component {
 
@@ -13,18 +13,40 @@ class Mandates extends Component {
         this.setState({mandates: mandates.data});
     }
 
+    deleteItem(id) {
+
+        // Filter out the clicked item and register
+       const isNotId = item =>  item.id !== id;
+
+        // Create an updated application list
+        const updatedList = this.state.mandates.filter(isNotId);
+
+        // Assign the new updated list to the list using setState Method
+        this.setState({mandate: updatedList});
+    }
+
+    async processItem(mandate) {
+        try{
+            const {data: profile} = await getAggregatorProfile(mandate.account.aggregator_id)
+            console.log(profile);
+        } catch(ex){
+            console.log(ex.response.data);
+        }
+
+    }
+
     render() {
         return (
             <div className="container mt-4">
                 <div className="row justify-content-center">
                     <div className="col-md-12 text-center">
-                        <h1 className="card font-weight-light bg-light">All Mandates</h1>
+                        <h1 className="card font-weight-light bg-light">All Applications</h1>
                         <div className="table-responsive">
-                              <table className="table table-striped table-bordered table-hover">
+                            <table className="table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>S/N</th>
-                                    <th>Aggregator</th>
+                                    <th>Aggregator ID</th>
                                     <th>Document Name</th>
                                     <th>Submission Date</th>
                                     <th>Application Status</th>
@@ -35,11 +57,15 @@ class Mandates extends Component {
                                 {this.state.mandates.map((mandate, index) => (
                                     <tr key={mandate.id}>
                                         <td>{index + 1}</td>
-                                        <td>Limtech Ventures</td>
+                                        <td>{mandate.account.aggregator_id}</td>
                                         <td>{mandate.document.substring(16)}</td>
                                         <td>{new Date(mandate.created_on).toDateString()}</td>
                                         <td>Not Processed</td>
-                                        <td></td>
+                                        <td>
+                                            <button className="btn btn-primary"
+                                                    onClick={() => this.processItem(mandate)}>Process
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>
@@ -49,9 +75,9 @@ class Mandates extends Component {
                     </div>
 
                     {/*<div className="col-11 col-md-6 text-center">*/}
-                        {/*<div className="card border-top-0 rounded-0">*/}
-                            {/**/}
-                        {/*</div>*/}
+                    {/*<div className="card border-top-0 rounded-0">*/}
+                    {/**/}
+                    {/*</div>*/}
                     {/*</div>*/}
                 </div>
             </div>

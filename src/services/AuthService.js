@@ -5,10 +5,12 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 const apiUrl = `${process.env.REACT_APP_SERVICE_URL}`;
+const profileLogoutUrlMain = `${process.env.REACT_APP_PROFILE_URL}/logout`;
 const apiEndpoint = apiUrl + "/auth";
 const tokenKey = 'auth-token';
 
 http.setJwt(getAuthToken());
+ console.log(profileLogoutUrlMain);
 
 export async function login(identity, password) {
     const {data} = await http.post(apiEndpoint, {identity, password});
@@ -22,6 +24,10 @@ export function loginWithJwt(jwt) {
 export function logout() {
     cookies.remove('lever-token');
     localStorage.removeItem(tokenKey);
+
+     //TODO Set to generic URL
+    const profileLogoutUrl = "http://localhost:8080/logout";
+    window.location.replace(profileLogoutUrl);
 }
 
 export function getCurrentUser() {
@@ -30,7 +36,7 @@ export function getCurrentUser() {
 }
 
 
-export function getAuthToken(){
+export function getAuthToken() {
     return cookies.get('lever-token') || null;
 }
 

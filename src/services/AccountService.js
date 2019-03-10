@@ -4,6 +4,7 @@ const apiUrl = `${process.env.REACT_APP_SERVICE_URL}`;
 const apiEndpoint = apiUrl + "/social/accounts/";
 const apiMandateEndpoint = apiUrl + "/social/mandates/";
 const apiSingleEndpoint = `${apiUrl}/social/accounts/aggregator`;
+const apiAggregatorProfileEndpoint = `${apiUrl}/profiles`
 
 export function activateSocialAccount(aggregator){
     return http.post(apiEndpoint, aggregator);
@@ -15,12 +16,23 @@ export function getSocialAccount(aggregatorId){
 }
 
 export function getAccountMandates(aggregatorId){
-    const aggregatorMandateUrl = `${apiMandateEndpoint}${aggregatorId}/`;
+    const aggregatorMandateUrl = `${apiMandateEndpoint}/aggregator/${aggregatorId}/`;
     return http.get(aggregatorMandateUrl);
 }
 
 export function getAllMandates() {
     return http.get(apiMandateEndpoint);
+}
+
+export function getMandateDetails(mandate){
+    const mandateDetailsUrl = `${apiMandateEndpoint}/${mandate.id}/`;
+    return http.get(mandateDetailsUrl);
+}
+
+export function getAggregatorProfile(aggregatorId) {
+    const profileUrl = `${apiAggregatorProfileEndpoint}/${aggregatorId}`;
+    console.log(profileUrl);
+    return http.get(profileUrl);
 }
 
 export function saveMandate(mandate){

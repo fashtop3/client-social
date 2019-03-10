@@ -4,17 +4,12 @@ import auth from "../services/AuthService";
 
 class MandateForm extends Component {
 
-    constructor(props){
-        super(props);
+    state = {
+        selectedFile: null,
+        account: {},
+        mandates: []
+    };
 
-        this.state = {
-            selectedFile: null,
-            account: {},
-            mandates: []
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
 
     async componentDidMount() {
         try {
@@ -22,18 +17,17 @@ class MandateForm extends Component {
             const {data: existingAccount} = await getSocialAccount(user.sub.id);
             this.setState({account: existingAccount.data});
             const {data: mandates} = await getAccountMandates(user.sub.id);
-            this.setState({mandates: mandates.data});
+            this.setState({mandates: mandates.data.mandates});
         }
-        catch(ex){
+        catch (ex) {
             console.log(ex.response.data);
         }
     }
 
-    handleChange= event =>{
-
-            this.setState({
-                selectedFile: event.target.files[0]
-       })
+    handleChange = event => {
+        this.setState({
+            selectedFile: event.target.files[0]
+        })
     };
 
     handleSubmit = async e => {
@@ -43,7 +37,7 @@ class MandateForm extends Component {
         let account_id = this.state.account.id;
         formData.append("document", file);
         formData.append("account_id", account_id);
-        try{
+        try {
             await saveMandate(formData);
             const user = auth.getCurrentUser();
             const {data: mandates} = await getAccountMandates(user.sub.id);
@@ -56,7 +50,6 @@ class MandateForm extends Component {
             }
         }
     };
-
 
 
     render() {
@@ -112,7 +105,7 @@ class MandateForm extends Component {
                                                      role="group" aria-label="Mandate Options">
                                             </section>
                                             <section className="pl-3 text-left align-self-center">
-                                                {index +1}.  {'  '}
+                                                {index + 1}. {'  '}
                                                 Uploaded on {new Date(mandate.created_on).toDateString()} :
                                                 ({mandate.document.substring(16)})
                                             </section>
