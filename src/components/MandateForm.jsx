@@ -41,7 +41,7 @@ class MandateForm extends Component {
             await saveMandate(formData);
             const user = auth.getCurrentUser();
             const {data: mandates} = await getAccountMandates(user.sub.id);
-            this.setState({mandates: mandates.data});
+            this.setState({mandates: mandates.data.mandates});
             this.setState({selectedFile: null});
         }
         catch (ex) {
