@@ -5,12 +5,12 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 const apiUrl = `${process.env.REACT_APP_SERVICE_URL}`;
-const profileLogoutUrlMain = `${process.env.REACT_APP_PROFILE_URL}/logout`;
+// const profileLogoutUrlMain = `${process.env.REACT_APP_PROFILE_URL}/logout`;
 const apiEndpoint = apiUrl + "/auth";
 const tokenKey = 'auth-token';
 
 http.setJwt(getAuthToken());
- console.log(profileLogoutUrlMain);
+
 
 export async function login(identity, password) {
     const {data} = await http.post(apiEndpoint, {identity, password});

@@ -19,7 +19,7 @@ const Navigation = ({user}) => {
                           </NavLink>
                       )}
 
-                       {user && (
+                       {user && user.is_staff && (
                           <NavLink className="nav-item nav-link" to="/mandates">
                               Mandates
                           </NavLink>

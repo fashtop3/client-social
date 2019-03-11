@@ -1,11 +1,22 @@
 import React, {Component} from 'react';
 import {getAggregatorProfile, getAllMandates} from "../services/AccountService"
+import Search from "./Search";
+import MandatesTable from "./MandatesTable";
+
 
 class Mandates extends Component {
 
-    state = {
-        mandates: []
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            mandates: [],
+            searchTerm: ''
+        };
+
+        this.searchValue = this.searchValue.bind(this);
+        this.processItem = this.processItem.bind(this);
+    }
 
 
     async componentDidMount() {
@@ -13,10 +24,14 @@ class Mandates extends Component {
         this.setState({mandates: mandates.data});
     }
 
+    searchValue(event) {
+        this.setState({searchTerm: event.target.value});
+    }
+
     deleteItem(id) {
 
         // Filter out the clicked item and register
-       const isNotId = item =>  item.id !== id;
+        const isNotId = item => item.id !== id;
 
         // Create an updated application list
         const updatedList = this.state.mandates.filter(isNotId);
@@ -26,59 +41,42 @@ class Mandates extends Component {
     }
 
     async processItem(mandate) {
-        try{
+        try {
             const {data: profile} = await getAggregatorProfile(mandate.account.aggregator_id)
             console.log(profile);
-        } catch(ex){
+        } catch (ex) {
             console.log(ex.response.data);
         }
 
     }
 
     render() {
+
+        const {mandates, searchTerm} = this.state;
+
         return (
             <div className="container mt-4">
                 <div className="row justify-content-center">
                     <div className="col-md-12 text-center">
                         <h1 className="card font-weight-light bg-light">All Applications</h1>
-                        <div className="table-responsive">
-                            <table className="table table-striped table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Aggregator ID</th>
-                                    <th>Document Name</th>
-                                    <th>Submission Date</th>
-                                    <th>Application Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {this.state.mandates.map((mandate, index) => (
-                                    <tr key={mandate.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{mandate.account.aggregator_id}</td>
-                                        <td>{mandate.document.substring(16)}</td>
-                                        <td>{new Date(mandate.created_on).toDateString()}</td>
-                                        <td>Not Processed</td>
-                                        <td>
-                                            <button className="btn btn-primary"
-                                                    onClick={() => this.processItem(mandate)}>Process
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+
+                        <div className="row">
+                            <div className="col-md-9"/>
+                            <div className="col-md-3">
+                                <Search
+                                    onChange={this.searchValue}
+                                    value={searchTerm}
+                                />
+                            </div>
                         </div>
 
-                    </div>
+                        <MandatesTable
+                            mandates={mandates}
+                            searchTerm={searchTerm}
+                            processItem={this.processItem}
+                        />
 
-                    {/*<div className="col-11 col-md-6 text-center">*/}
-                    {/*<div className="card border-top-0 rounded-0">*/}
-                    {/**/}
-                    {/*</div>*/}
-                    {/*</div>*/}
+                    </div>
                 </div>
             </div>
         );
