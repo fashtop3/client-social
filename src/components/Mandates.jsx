@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getAggregatorProfile, getAllMandates} from "../services/AccountService"
+import {getAllMandates} from "../services/AccountService"
 import Search from "./Search";
 import MandatesTable from "./MandatesTable";
 
@@ -40,14 +40,8 @@ class Mandates extends Component {
         this.setState({mandate: updatedList});
     }
 
-    async processItem(mandate) {
-        try {
-            const {data: profile} = await getAggregatorProfile(mandate.account.aggregator_id)
-            console.log(profile);
-        } catch (ex) {
-            console.log(ex.response.data);
-        }
-
+    processItem(mandate) {
+        console.log(mandate);
     }
 
     render() {

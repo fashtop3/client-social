@@ -7,6 +7,8 @@ import auth from "./services/AuthService";
 import NotFound from "./components/NotFound";
 import Logout from "./components/Logout";
 import Mandates from "./components/Mandates";
+import ProtectedRoute from "./components/ProtectedRouter";
+import MandateDetail from "./components/MandateDetail";
 
 class App extends Component {
 
@@ -33,12 +35,13 @@ class App extends Component {
                 <Navigation user={this.state.user}/>
 
                 <Switch>
-                    <Route path="/dashboard"
+                    <ProtectedRoute path="/dashboard"
                            render={ (props) => <Dashboard user={ this.state.user} {...props} />}
                     />
                     <Route path='/logout' component={Logout}/>
-                    <Route path='/mandates' component={Mandates}/>
-                    <Route path="/apply" exact component={MandateForm}/>
+                    <ProtectedRoute path='/mandates/:id' component={MandateDetail}/>
+                    <ProtectedRoute path='/mandates' component={Mandates}/>
+                    <ProtectedRoute path="/apply" exact component={MandateForm}/>
                     <Route path='/not-found' component={NotFound}/>
                     <Redirect from="/" exact to='/dashboard'/>
                     <Redirect to='/not-found'/>

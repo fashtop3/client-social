@@ -24,14 +24,13 @@ export function getAllMandates() {
     return http.get(apiMandateEndpoint);
 }
 
-export function getMandateDetails(mandate){
-    const mandateDetailsUrl = `${apiMandateEndpoint}/${mandate.id}/`;
+export function getMandateDetails(mandateId){
+    const mandateDetailsUrl = `${apiMandateEndpoint}/${mandateId}/`;
     return http.get(mandateDetailsUrl);
 }
 
 export function getAggregatorProfile(aggregatorId) {
     const profileUrl = `${apiAggregatorProfileEndpoint}/${aggregatorId}`;
-    console.log(profileUrl);
     return http.get(profileUrl);
 }
 
