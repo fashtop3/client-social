@@ -10,7 +10,8 @@ class MandateDetail extends Component {
         this.state = {
             mandate: {},
             profile: {},
-            account: {}
+            account: {},
+            business: {}
         }
     }
 
@@ -44,6 +45,7 @@ class MandateDetail extends Component {
         this.setState({account: theMandate.mandate.account});
         const {data: profile} = await this.getProfileInfo(theMandate.mandate);
         this.setState({profile: profile});
+        this.setState({business: profile.business});
     }
 
     render() {
@@ -51,7 +53,7 @@ class MandateDetail extends Component {
         let mandateDoc = `https://s3.amazonaws.com/lever-static/${this.state.mandate.document}`;
         let fileLink = <a href={mandateDoc} target="_blank" rel="noopener noreferrer">View Mandate</a>
 
-        const {mandate, profile, account} = this.state;
+        const {mandate, profile, account, business} = this.state;
 
         return (
             <div className="container mt-4">
@@ -62,11 +64,21 @@ class MandateDetail extends Component {
                                 <h2>Application Detail</h2>
                                 <hr/>
                                 <p><strong>Aggregator ID:</strong> {account.aggregator_id}</p>
+
+                                {business && (
+                                    <p><strong>Business:</strong> {business.bus_name}</p>
+                                )}
+
+                                {business && (
+                                    <p><strong>Address:</strong> {business.bus_address}</p>
+                                )}
+
                                 <p><strong>Contact Person:</strong> {profile.last_name} {profile.first_name}</p>
                                 <p><strong>Phone:</strong> {profile.phone}</p>
                                 <p><strong>Date:</strong> {new Date(mandate.created_on).toDateString()}</p>
 
                                 <p>Document: {fileLink}</p>
+
 
                                 <p>
                                     <button className="btn btn-primary">Process Application</button>
