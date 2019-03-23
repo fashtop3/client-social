@@ -10,7 +10,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter basename={'/social'}>
         <App />
     </BrowserRouter>,
   document.getElementById('root')
