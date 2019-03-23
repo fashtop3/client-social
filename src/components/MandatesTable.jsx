@@ -18,7 +18,7 @@ const MandatesTable = ({mandates, searchTerm, processItem}) => {
                     <th>Aggregator ID</th>
                     <th>Submission Date</th>
                     <th>Application Status</th>
-                    <th>Actions</th>
+                    {/*<th>Actions</th>*/}
                 </tr>
                 </thead>
 
@@ -30,23 +30,23 @@ const MandatesTable = ({mandates, searchTerm, processItem}) => {
                         {/*<td>{mandate.document.substring(16)}</td>*/}
                         <td>{new Date(mandate.created_on).toDateString()}</td>
                         <td>{mandate.processed ? 'Processed' : 'Not Processed'}</td>
-                        <td>
-                            <button className="btn btn-primary"
-                                    onClick={() => processItem(mandate)}>Process
-                            </button>
+                        {/*<td>*/}
+                            {/*<button className="btn btn-primary"*/}
+                                    {/*onClick={() => processItem(mandate)}>Manage*/}
+                            {/*</button>*/}
 
-                            {'-'}
+                            {/*{'-'}*/}
 
-                             <button className="btn btn-primary"
-                                    onClick={() => processItem(mandate)}>Approve
-                            </button>
+                             {/*<button className="btn btn-primary"*/}
+                                    {/*onClick={() => processItem(mandate)}>Approve*/}
+                            {/*</button>*/}
 
-                           {'-'}
+                           {/*{'-'}*/}
 
-                            <button className="btn btn-primary"
-                                    onClick={() => processItem(mandate)}>Decline
-                            </button>
-                        </td>
+                            {/*<button className="btn btn-primary"*/}
+                                    {/*onClick={() => processItem(mandate)}>Decline*/}
+                            {/*</button>*/}
+                        {/*</td>*/}
                     </tr>
                 ))}
                 </tbody>

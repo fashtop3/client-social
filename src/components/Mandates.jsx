@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getAllMandates} from "../services/AccountService"
+import {getAggregatorProfile, getAllMandates} from "../services/AccountService"
 import Search from "./Search";
 import MandatesTable from "./MandatesTable";
 
@@ -40,8 +40,9 @@ class Mandates extends Component {
         this.setState({mandate: updatedList});
     }
 
-    processItem(mandate) {
-        console.log(mandate);
+    async processItem(mandate) {
+        const {data: profile} = await getAggregatorProfile(mandate.account.aggregator_id)
+        console.log(profile);
     }
 
     render() {
@@ -52,7 +53,7 @@ class Mandates extends Component {
             <div className="container mt-4">
                 <div className="row justify-content-center">
                     <div className="col-md-12 text-center">
-                        <h1 className="card font-weight-light bg-light">All Applications</h1>
+                        <h1 className="card font-weight-light bg-light">Pending Applications</h1>
 
                         <div className="row">
                             <div className="col-md-9"/>
